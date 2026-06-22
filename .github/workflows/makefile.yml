@@ -14,14 +14,19 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install bash loadable dev files and build tools
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y bash-builtins build-essential pkg-config clang-tidy
+
     - name: configure
       run: ./configure
 
-    - name: Install dependencies
+    - name: build
       run: make
 
-    - name: Run check
-      run: make check
+    - name: test
+      run: make test
 
-    - name: Run distcheck
-      run: make distcheck
+    - name: lint
+      run: make lint
