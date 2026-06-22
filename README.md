@@ -52,9 +52,10 @@ Common scopes:
 
 ```sh
 process() {
-  local tmp; tmp=$(mktemp)
-  defer 'rm -f -- "$tmp"' RETURN   # cleaned up when process returns
-  : >"$tmp"
+  local tmp=
+  defer 'rm -f -- "$tmp"; printf "Cleanup of: %s\\n" "$tmp"' RETURN
+  tmp=$(mktemp)
+  ls -l "$tmp"
 }
 ```
 
