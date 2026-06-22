@@ -111,9 +111,6 @@ command queue:
 - Because the handler is an ordinary trap string, the inspection flags and
   no-argument listing simply delegate to the built-in `trap`, so `defer -p` and
   `trap -p` show the same thing.
-- The trap primitives it relies on (`decode_signal`, `set_signal`,
-  `trap_list`, ...) are not in the installed bash headers, so they are declared
-  `extern`; the running bash exports the symbols at load time.
 
 A consequence worth knowing: deferred commands and any plain `trap` you set
 share the same per-signal handler, and there is no separate "undefer". Clearing

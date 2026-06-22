@@ -39,8 +39,9 @@ defer.o: defer.c
 test:	defer
 	$${THIS_SH:-bash} test/defer_test.sh
 
+# Pass bash's headers as -isystem so clang-tidy lints only this project.
 lint:
-	clang-tidy defer.c -- $(CCFLAGS) $(INC)
+	clang-tidy --quiet defer.c -- $(CCFLAGS) $(patsubst -I%,-isystem %,$(INC))
 
 clean:
 	$(RM) defer.o defer
