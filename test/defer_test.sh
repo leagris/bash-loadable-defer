@@ -75,12 +75,14 @@ out=$("$THIS_SH" -c '
 check "-p shows chained handler" "trap -- 'echo two
 echo one' EXIT" "$out"
 
+# grep isolates our line: a non-interactive shell may inherit other ignored
+# signals (e.g. SIGPIPE on CI runners) that the no-args listing also prints.
 out=$("$THIS_SH" -c '
   enable -f "'"$obj"'" defer
   defer "echo hi" INT
   defer
   trap - INT
-')
+' | grep SIGINT)
 check "no-args lists traps" "trap -- 'echo hi' SIGINT" "$out"
 
 if "$THIS_SH" -c 'enable -f "'"$obj"'" defer; defer -l' | grep -q SIGINT; then
