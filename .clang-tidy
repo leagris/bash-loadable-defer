@@ -1,0 +1,11 @@
+# Disabled checks fight this project's GNU/Bash style or push non-portable APIs.
+Checks: >
+  clang-analyzer-*,
+  bugprone-*,
+  performance-*,
+  readability-*,
+  -clang-analyzer-security.insecureAPI.strcpy,
+  -readability-braces-around-statements,
+  -readability-identifier-length,
+  -readability-redundant-parentheses,
+  -readability-use-concise-preprocessor-directives

@@ -1,0 +1,4 @@
+# Match the GNU/Bash source coding style used by examples/loadables/*.c
+BasedOnStyle: GNU
+# Keep help-text and message string literals on one line.
+BreakStringLiterals: false
