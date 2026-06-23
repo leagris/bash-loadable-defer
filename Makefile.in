@@ -39,9 +39,8 @@ defer.o: defer.c
 test:	defer
 	$${THIS_SH:-bash} test/defer_test.sh
 
-# Pass bash's headers as -isystem so clang-tidy lints only this project.
-lint:
-	clang-tidy --quiet defer.c -- $(CCFLAGS) $(patsubst -I%,-isystem %,$(INC))
+format:
+	indent -gnu defer.c
 
 clean:
 	$(RM) defer.o defer
@@ -50,4 +49,4 @@ distclean: clean
 	$(RM) Makefile config.log config.status
 	$(RM) -r autom4te.cache
 
-.PHONY:	all test lint clean distclean
+.PHONY:	all test format clean distclean

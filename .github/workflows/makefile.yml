@@ -17,7 +17,7 @@ jobs:
     - name: Install bash loadable dev files and build tools
       run: |
         sudo apt-get update
-        sudo apt-get install -y bash-builtins build-essential pkg-config clang-tidy
+        sudo apt-get install -y bash-builtins build-essential pkg-config indent
 
     - name: configure
       run: ./configure
@@ -28,5 +28,5 @@ jobs:
     - name: test
       run: make test
 
-    - name: lint
-      run: make lint
+    - name: format
+      run: make format
