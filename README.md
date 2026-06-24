@@ -80,7 +80,7 @@ defer 'echo bye' EXIT
 enable -d defer                  # unload (required before reloading a rebuild)
 ```
 
-Other targets: `make test` runs the suite, `make lint` runs clang-tidy,
+Other targets: `make test` runs the suite, `make format` runs GNU `indent`,
 `make clean` / `make distclean` remove build output.
 
 ## Examples
