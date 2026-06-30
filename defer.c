@@ -27,7 +27,9 @@ typedef struct
 } deferral;
 
 static char *
-prepend_cmdline (const char *newcmd, const char *existing)
+  __attribute__((returns_nonnull, warn_unused_result, malloc, malloc (xfree),
+		 nonnull (1))) prepend_cmdline (const char *newcmd,
+						const char *existing)
 {
   const size_t nlen = strlen (newcmd);
 
@@ -43,6 +45,7 @@ prepend_cmdline (const char *newcmd, const char *existing)
 }
 
 static const char *
+  __attribute__((returns_nonnull, warn_unused_result, nonnull))
 current_trap (const char *sigspec)
 {
   const int sig = decode_signal (sigspec, DSIG_NOCASE | DSIG_SIGPREFIX);
@@ -55,6 +58,7 @@ current_trap (const char *sigspec)
 }
 
 static int
+  __attribute__((pure, warn_unused_result))
 is_trap_query (const WORD_LIST *args)
 {
   if (args == 0)
@@ -71,6 +75,7 @@ is_trap_query (const WORD_LIST *args)
 }
 
 static int
+  __attribute__((nonnull, warn_unused_result))
 trap_set (sh_builtin_func_t *trap_fn, const char *sigspec,
 	  const char *command)
 {
@@ -83,6 +88,7 @@ trap_set (sh_builtin_func_t *trap_fn, const char *sigspec,
 }
 
 static int
+  __attribute__((nonnull (1), warn_unused_result))
 trap_chain (sh_builtin_func_t *trap_fn, const deferral d)
 {
   const char *existing = current_trap (d.sigspec);

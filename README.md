@@ -35,7 +35,7 @@ defer [-lpP] [action signal_spec ...]
 
 - `defer ACTION SIGNAL_SPEC ...` queues `ACTION` to run when the shell receives
   each `SIGNAL_SPEC`. The most recently deferred action runs first.
-- `SIGNAL_SPEC` is a signal name (case insensitive, `SIG` prefix optional) or
+- `SIGNAL_SPEC` is a signal name (case-insensitive, `SIG` prefix optional) or
   number, or one of the pseudo-signals `EXIT`, `RETURN`, `DEBUG`, `ERR`.
 - With no action arguments, or with `-l`, `-p`, or `-P`, `defer` behaves like
   `trap`: it lists registered handlers or signal names. So `defer -p EXIT`

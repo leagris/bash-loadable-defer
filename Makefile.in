@@ -8,45 +8,36 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 
-# these should match the ones in Makefile.in (for the make install target)
-
-prefix = @prefix@
-exec_prefix = @exec_prefix@
-libdir = @libdir@
-
-# ${loadablesdir} is where the example loadable builtins and data files
-# are installed (make install target in Makefile.in)
-
 loadablesdir = @loadablesdir@
-DESTDIR =
 
-# include Makefile.inc for all boilerplate definitions
+include $(loadablesdir)/Makefile.inc
 
-include $(DESTDIR)$(loadablesdir)/Makefile.inc
-
-# loadables.h installs to loadablesdir, which Makefile.inc's INC does not cover.
 INC += -I$(loadablesdir)
 
-# `defer' is the name of the shared object, built from defer.c
+LOCAL_CFLAGS += -fanalyzer -Wreturn-type -Werror
 
-all:	defer
+SOURCES = $(wildcard *.c)
+LOADABLES = $(SOURCES:.c=)
+OBJECTS = $(SOURCES:.c=.o)
 
-defer:	defer.o
-	$(SHOBJ_LD) $(SHOBJ_LDFLAGS) $(SHOBJ_XLDFLAGS) -o $@ defer.o $(SHOBJ_LIBS)
+all:	$(LOADABLES)
 
-defer.o: defer.c
+$(LOADABLES): %: %.o
+	$(SHOBJ_LD) $(SHOBJ_LDFLAGS) $(SHOBJ_XLDFLAGS) -o $@ $< $(SHOBJ_LIBS)
 
-test:	defer
+check:	all test
+
+test:	$(LOADABLES)
 	$${THIS_SH:-bash} test/defer_test.sh
 
 format:
-	indent -gnu defer.c
+	indent -gnu $(SOURCES)
 
 clean:
-	$(RM) defer.o defer
+	$(RM) $(OBJECTS) $(LOADABLES)
 
 distclean: clean
 	$(RM) Makefile config.log config.status
 	$(RM) -r autom4te.cache
 
-.PHONY:	all test format clean distclean
+.PHONY:	all check test format clean distclean
