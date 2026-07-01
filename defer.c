@@ -26,6 +26,12 @@ typedef struct
   char *sigspec;
 } deferral;
 
+/* gcc < 16 -Wanalyzer-malloc-leak false positive, eliminated by gcc 16's
+   value_range machinery: https://gcc.gnu.org/gcc-16/changes.html#analyzer  */
+#if __GNUC__ < 16
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wanalyzer-malloc-leak"
+#endif
 static char *
   __attribute__((returns_nonnull, warn_unused_result, malloc, malloc (xfree),
 		 nonnull (1))) prepend_cmdline (const char *newcmd,
@@ -43,6 +49,10 @@ static char *
   strcpy (combined + nlen + 1, existing);
   return combined;
 }
+
+#if __GNUC__ < 16
+#pragma GCC diagnostic pop
+#endif
 
 static const char *
   __attribute__((returns_nonnull, warn_unused_result, nonnull))
